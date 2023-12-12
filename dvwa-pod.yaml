@@ -1,12 +1,10 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: dvwa-pod
+  name: dvwa
 spec:
   containers:
-  - name: dvwa-container
+  - name: dvwa
     image: vulnerables/web-dvwa
     ports:
-      - containerPort: 80
-    command: ["/bin/sh"]
-    args: ["-c", "apt-get update; apt-get install -y nmap curl wget; docker-php-entrypoint apache2-foreground"]
+    - containerPort: 80
