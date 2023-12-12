@@ -79,4 +79,51 @@ spec:
 - **Ejecuta Comandos**: Sé parte activa de las pruebas de seguridad.
 - **Observa y Aprende**: Descubre cómo Prisma Cloud maneja diversas amenazas en tiempo real.
 
+## Despliegue y Análisis de Imagen XMRig con Prisma Cloud
+
+La imagen `rcmelendez/xmrig` es una implementación de XMRig, un software popular para la minería de criptomonedas. Esta imagen, creada por el usuario `rcmelendez`, se utiliza en este workshop para demostrar la eficacia de Prisma Cloud en la detección de actividades potencialmente maliciosas.
+
+El objetivo de esta sección del workshop es experimentar cómo Prisma Cloud detecta y maneja la ejecución de un contenedor que podría estar realizando actividades no deseadas, como la minería de criptomonedas.
+
+### Despliegue del Pod
+
+1. **Creación del Pod**:
+ Utilice el siguiente manifiesto para crear un pod con XMRig:
+```yaml
+
+```yaml
+   apiVersion: v1
+   kind: Pod
+   metadata:
+     name: xmrig-pod
+   spec:
+     containers:
+     - name: xmrig-container
+       image: rcmelendez/xmrig
+       resources:
+         limits:
+           cpu: "1"
+           memory: "500Mi"
+         requests:
+           cpu: "0.5"
+           memory: "250Mi"
+``
+
+### Ejecución:
+
+Despliegue el pod con el siguiente comando:
+
+```bash
+kubectl apply -f <archivo>.yaml -n <NAME>
+```
+
+### Monitoreo con Prisma Cloud
+
+**Observación**: Monitoree las alertas y eventos en Prisma Cloud tras el despliegue del pod para observar su comportamiento.
+
+### Consideraciones Importantes
+
+*   **Uso de un Entorno Controlado**: Es vital realizar estas pruebas en un entorno seguro y aislado, para evitar impactos no deseados.
+*   **Propósito Educativo**: Este ejercicio está diseñado con fines educativos, enfocándose en entender cómo Prisma Cloud responde a actividades potencialmente riesgosas.
+
 
