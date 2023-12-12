@@ -89,7 +89,6 @@ El objetivo de esta sección del workshop es experimentar cómo Prisma Cloud det
 
 1. **Creación del Pod**:
  Utilice el siguiente manifiesto para crear un pod con XMRig:
-```yaml
 
 ```yaml
    apiVersion: v1
@@ -107,7 +106,7 @@ El objetivo de esta sección del workshop es experimentar cómo Prisma Cloud det
          requests:
            cpu: "0.5"
            memory: "250Mi"
-``
+```
 
 ### Ejecución:
 
