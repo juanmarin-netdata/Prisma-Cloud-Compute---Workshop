@@ -72,6 +72,7 @@ spec:
     image: alpine
     command: ["/bin/sh"]
     args: ["-c", "apk update; apk add --no-cache nmap curl wget; sleep infinity"]
+```
 
 ## Tu Rol Como Participante 🌟
 
