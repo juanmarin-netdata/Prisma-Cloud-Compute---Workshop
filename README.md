@@ -19,6 +19,11 @@ Prisma Cloud Compute se enfoca en asegurar el entorno de ejecución y las aplica
 - Conexión a servidores remotos a través del puerto 22.
 - Usuario habilitado a la consola de Prisma Cloud.
 
+## 🔍 Observaciones Importantes
+
+- **Seguridad Primero**: Todas las actividades se realizan en un entorno controlado y seguro.
+- **Colaboración**: Este es un ejercicio de aprendizaje colaborativo, no una competencia.
+
 ## Desplegando un DeamonSet Defender en un clúster de Kubernetes
 
 **Objetivo:** Configurar, descargar y desplegar el DaemonSet Defender de Prisma Cloud en un clúster de Kubernetes.
@@ -58,9 +63,89 @@ Prisma Cloud Compute se enfoca en asegurar el entorno de ejecución y las aplica
 1. Una vez desplegado el Defender, puede monitorearlo desde la consola de Prisma Cloud.
    
 2. Revise el estado de conexión y los logs del Defender desde la ruta **Manage > Defenders > Defenders:Deployed** en la sección de **Compute**.
- 
+
+## Desplegando manifiestos de Kubernetes para pruebas de Runtime Protection
+
+**Objetivo:** Desplegar pods vulnerbales para experimentar las capacidades de protección en tiempo de ejecución de Prisma Cloud
+
+**Ejecutando procesos específicos en un entorno no asegurado por Prisma Cloud**
+
+1. Cree un Pod para la Simulación de Procesos comunes en ataques, como **nmap, curl y wget**
+
+   `kubectl create namespace <NAME>`
+
+   `vim pod-process.yaml`
+
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: process-pod
+spec:
+  containers:
+  - name: tools-container
+    image: alpine
+    command: ["/bin/sh"]
+    args: ["-c", "apk update; apk add --no-cache nmap curl wget; sleep infinity"]
+
+```
+
+   `kubectl apply -f pod-process.yaml -n <NAME>`
+
+2. Ejecutemos **kubectl exec** para acceder al contenedor y ejecutar comandos.
+
+   `kubectl exec -it process-pod -n <NAME>`
+
+3. Realizando un escaneo de puertos con **nmap**. 
+
+   `nmap [dirección IP o nombre del host]`
+
+   `nmap -A [dirección IP o nombre del host]`
+
+4. Consultando direcciones web con **curl**.
+
+   `curl http://example.com`
+
+   `curl http://example.com -o filename.html`
+
+5. Descargando archivos con **wget**.
+
+   `wget http://example.com/file`
+
+   `wget -b http://example.com/file`
+
+**Denegando y Bloqueando Procesos a través de reglas de protección en tiempo de ejecución:**
+
+La protección en tiempo de ejecución (runtime protection) de Prisma Cloud se realiza mediante reglas vinculadas al defender que monitorean y controlan el comportamiento de las aplicaciones y procesos en ejecución. Estas reglas ayudan a detectar y prevenir actividades sospechosas o maliciosas, asegurando así la integridad y seguridad de los entornos de nube y contenedores.
+
+## 🚀 Tu Rol
+
+Como participante, tendrás la oportunidad de:
+
+- **Ejecutar Comandos**: Realiza comandos desde tu propio entorno para ver en acción nuestras reglas de seguridad.
+- **Observar y Aprender**: Mira cómo Prisma Cloud responde a tus acciones y aprende sobre las mejores prácticas en seguridad en tiempo de ejecución.
 
 
+
+
+
+¡Es hora de poner a prueba tus habilidades y aprender sobre la protección en tiempo real!
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   
 <!-- ## Asegurando el cumplimiento en IaC con Prisma Cloud - Checkov
 
 **Objetivo:** instalar el motor de escaneo de IaC **_Checkov_**
