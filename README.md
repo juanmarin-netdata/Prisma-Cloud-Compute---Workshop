@@ -1,82 +1,67 @@
 # Prisma Cloud Compute
 
-## Introducción
+## Introducción 🚀
 
-El modulo Compute de Prisma Cloud está diseñado para proteger cargas de trabajo y aplicaciones Cloud Native en entornos modernos; proporcionando seguridad integral en el ciclo de vida de las aplicaciones, desde la creación hasta la ejecución, mediante:
+Prisma Cloud Compute ofrece una protección integral para aplicaciones y cargas de trabajo Cloud Native en entornos modernos. Desde la seguridad en contenedores hasta la protección en tiempo de ejecución, te cubrimos en cada paso del ciclo de vida de tu aplicación.
 
-1. Seguridad en Contenedores y Kubernetes: Protege contenedores, imágenes de Docker y orquestación en Kubernetes, asegurando las configuraciones y mitigando la explotación de vulnerabilidades.
-   
-2. Protección en Tiempo de Ejecución: Vigila las cargas de trabajo Cloud Native en tiempo real, detectando y respondiendo a actividades sospechosas o maliciosas.
+### Características Clave:
 
-3. Integraciones de DevOps: Se integra con herramientas y flujos de trabajo de CI/CD para seguridad continua en el desarrollo y despliegue de aplicaciones.
-   
-4. Visibilidad y Control de vulnerabilidades: Ofrece un análisis periódico sobre las vulnerabilidades y brechas de seguridad en las aplicaciones y cargas de trabajo Cloud Native.
+- **Seguridad en Contenedores y Kubernetes**: Fortaleciendo tus contenedores y orquestaciones de Kubernetes contra vulnerabilidades.
+- **Protección en Tiempo de Ejecución**: Monitorización constante para detectar y responder ante cualquier actividad sospechosa.
+- **Integraciones de DevOps**: Integración fluida con tus herramientas y flujos de trabajo de CI/CD.
+- **Visibilidad y Control de Vulnerabilidades**: Análisis profundos para mantener tus aplicaciones seguras y sólidas.
 
-Prisma Cloud Compute se enfoca en asegurar el entorno de ejecución y las aplicaciones en sí, abarcando desde la fase de desarrollo hasta la producción.
+## Prerequisitos 🛠️
 
-## Prerequisitos:
+- **Acceso a Servidores Remotos**: Asegura una conexión a través del puerto 22.
+- **Usuario de Prisma Cloud**: Accede a todas las funcionalidades de la consola de Prisma Cloud.
 
-- Conexión a servidores remotos a través del puerto 22.
-- Usuario habilitado a la consola de Prisma Cloud.
+## Observaciones Importantes 🔍
 
-## 🔍 Observaciones Importantes
+- **Seguridad Primero**: Priorizamos un entorno controlado y seguro.
+- **Colaboración**: Promovemos el aprendizaje colaborativo.
 
-- **Seguridad Primero**: Todas las actividades se realizan en un entorno controlado y seguro.
-- **Colaboración**: Este es un ejercicio de aprendizaje colaborativo, no una competencia.
+## Despliegue de DaemonSet Defender en Kubernetes 🌐
 
-## Desplegando un DeamonSet Defender en un clúster de Kubernetes
+### Objetivo
 
-**Objetivo:** Configurar, descargar y desplegar el DaemonSet Defender de Prisma Cloud en un clúster de Kubernetes.
+Configurar y desplegar el DaemonSet Defender de Prisma Cloud para una protección robusta en tu clúster de Kubernetes.
 
-**Configuraciones en Prisma Cloud Compute:**
+### Configuraciones en Prisma Cloud Compute
 
 1. Inicie sesión en la consola de Prisma Cloud.
+2. Navegue a `Manage > Defenders > Manual Deploy`.
+3. Seleccione **Kubernetes** como el tipo de Defender.
+4. Configure las opciones de despliegue según sus necesidades.
 
-   `Prisma Cloud URL: https://apps.paloaltonetworks.com/apps`
+### Despliegue del DaemonSet Defender
 
-3. Diríjase a la sección de **Compute** y busque la ruta **Manage > Defenders > Manual Deploy**.
+1. Inicie sesión en el servidor del Plano de Control.
+2. Abra la terminal y cargue el archivo YAML.
+3. Ejecute `kubectl apply -f <nombre_del_archivo>.yaml`.
+4. Verifique los pods con `kubectl get pods -A`.
 
-4. Dentro del método de despliegue, seleccione **Kubernetes** como el tipo de Defender que desea desplegar. 
+### Verificación y Monitoreo
 
-5. Configure las opciones de despliegue según sus necesidades específicas.
+1. Monitoree los Defenders desde la consola de Prisma Cloud.
+2. Revise el estado y los logs en `Manage > Defenders > Defenders:Deployed`.
 
-**Despliegue del DaemonSet Defender:**
+## Despliegue de Manifiestos para Pruebas de Runtime Protection 🛡️
 
-1. Inicie sesión en el servidor destinado al Plano de Control.
+### Objetivo
 
-   `ssh user@public_ip`
+Experimente las capacidades de protección en tiempo real de Prisma Cloud.
 
-2. Abra la terminal del Plano de Control de Kubernetes y cargue el archivo YAML en el directorio de trabajo.
+### Creación y Ejecución de un Pod de Pruebas
 
-   `vim twistlock_defender.yaml`
+1. Cree un Pod para simular procesos comunes en ataques.
+2. Use `kubectl create namespace <NAME>` y `kubectl apply -f pod-process.yaml -n <NAME>`.
+3. Acceda al contenedor con `kubectl exec -it process-pod -n <NAME>`.
+4. Ejecute comandos de prueba como `nmap`, `curl`, y `wget`.
 
-3. Ejecute el siguiente comando para desplegar el DaemonSet Defender:
+### Ejemplo de Manifiesto de Pod
 
-   `kubectl apply -f <nombre_del_archivo>.yaml`
-
-4. Verifique que los pods del Defender se estén ejecutando correctamente con:
-
-   `kubectl get pods -A`
-
-**Verificación y Monitoreo:**
-
-1. Una vez desplegado el Defender, puede monitorearlo desde la consola de Prisma Cloud.
-   
-2. Revise el estado de conexión y los logs del Defender desde la ruta **Manage > Defenders > Defenders:Deployed** en la sección de **Compute**.
-
-## Desplegando manifiestos de Kubernetes para pruebas de Runtime Protection
-
-**Objetivo:** Desplegar pods vulnerbales para experimentar las capacidades de protección en tiempo de ejecución de Prisma Cloud
-
-**Ejecutando procesos específicos en un entorno no asegurado por Prisma Cloud**
-
-1. Cree un Pod para la Simulación de Procesos comunes en ataques, como **nmap, curl y wget**
-
-   `kubectl create namespace <NAME>`
-
-   `vim pod-process.yaml`
-
-```
+```yaml
 apiVersion: v1
 kind: Pod
 metadata:
@@ -88,168 +73,9 @@ spec:
     command: ["/bin/sh"]
     args: ["-c", "apk update; apk add --no-cache nmap curl wget; sleep infinity"]
 
-```
+## Tu Rol Como Participante 🌟
 
-   `kubectl apply -f pod-process.yaml -n <NAME>`
+- **Ejecuta Comandos**: Sé parte activa de las pruebas de seguridad.
+- **Observa y Aprende**: Descubre cómo Prisma Cloud maneja diversas amenazas en tiempo real.
 
-2. Ejecutemos **kubectl exec** para acceder al contenedor y ejecutar comandos.
 
-   `kubectl exec -it process-pod -n <NAME>`
-
-3. Realizando un escaneo de puertos con **nmap**. 
-
-   `nmap [dirección IP o nombre del host]`
-
-   `nmap -A [dirección IP o nombre del host]`
-
-4. Consultando direcciones web con **curl**.
-
-   `curl http://example.com`
-
-   `curl http://example.com -o filename.html`
-
-5. Descargando archivos con **wget**.
-
-   `wget http://example.com/file`
-
-   `wget -b http://example.com/file`
-
-**Denegando y Bloqueando Procesos a través de reglas de protección en tiempo de ejecución:**
-
-La protección en tiempo de ejecución (runtime protection) de Prisma Cloud se realiza mediante reglas vinculadas al defender que monitorean y controlan el comportamiento de las aplicaciones y procesos en ejecución. Estas reglas ayudan a detectar y prevenir actividades sospechosas o maliciosas, asegurando así la integridad y seguridad de los entornos de nube y contenedores.
-
-## 🚀 Tu Rol
-
-Como participante, tendrás la oportunidad de:
-
-- **Ejecutar Comandos**: Realiza comandos desde tu propio entorno para ver en acción nuestras reglas de seguridad.
-- **Observar y Aprender**: Mira cómo Prisma Cloud responde a tus acciones y aprende sobre las mejores prácticas en seguridad en tiempo de ejecución.
-
-
-
-
-
-¡Es hora de poner a prueba tus habilidades y aprender sobre la protección en tiempo real!
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-   
-<!-- ## Asegurando el cumplimiento en IaC con Prisma Cloud - Checkov
-
-**Objetivo:** instalar el motor de escaneo de IaC **_Checkov_**
-
-**Actividades:**
-
-1. Para poder instalar Checkov previamente debe tener instalado Python >= 3.10, puede descargarlo en [este enlace](https://www.python.org/downloads/) y realizar su instalación por defecto.
-2. Puede verificar la versión de Python instalado ejecutando el siguiente comando en su CLI:
-
-```
-python --version
-```
-
-3. Instalar Checkov, puede utilizar cualquiera de los dos comandos:
-
-```
-pip install checkov
-pip3 install checkov
-```
-
-4. Descargue o clone el repositorio "xxxxx" en su maquina local.
-
-5.
-
-## Asegurando el cumplimiento en Tiempo Real desde el IDE
-
-**Objetivo:** instalar la extensión de Checkov en Visual Studio Code.
-
-**Actividades:**
-
-1. Para poder instalar la extensión de Checkov, previamente debe tener instalado Visual Studio Code, puede descargarlo en [este enlace](https://code.visualstudio.com/download) y realizar su instalación por defecto.
-
-2. Abrir Visual Studio Code e instalar la extensión de Checkov en la opción: **Extensiones**, **buscar “Checkov”** dar click en **instalar.**
-   ![VSC Checkov Extension](./images/VSC_Checkov_Ext.png)
--->
-
-## Asegurando mi proceso de despliegue de IaC con GitHub Actions
-
-**Objetivo:** Crear un pipeline en GitHub Actions con un Job de Prisma Cloud qué escanee por incumplimientos de controles en IaC.
-
-**Actividades:**
-
-1. Obtener una Access Key y Secret Key de Prisma Cloud, puede encontrar el [paso a paso para crearla en este enlace](https://docs.prismacloud.io/en/classic/cspm-admin-guide/manage-prisma-cloud-administrators/create-access-keys)
-
-_`Nota: Asegúrese de establecer una expiración para la access key, esta es la buena práctica`_
-
-2. Ir a Github y hacerle un fork a este repositorio en su cuenta de GitHub (mismos pasos que en el laboratorio anterior).
-
-3. En su nuevo repositorio, seleccionar las siguientes opciones **Settings >> Secrets and variables >> Actions >> New repository secret** y crear las siguientes variables en GitHub:
-
-- `Name: BC_API_KEY `
-- `Secret: AccessKey::SecretKey`
-
-  ![Create Secrets in GitHub](./images/GitHub_Secrets.png)
-
-_`Nota: Asegúrese de no incluir espacios en blanco en el secret y de separar los dos valores por los caracteres "::"`_
-
-4. Configurar el Workflow de GitHub Actions para escanear los archivos de terraform del directorio `./terraform`, para ello seleccione **Actions >> Buscar Prisma Cloud >> Configure**
-   ![Prisma Cloud Workflow](./images/GitHub_Prisma.png)
-
-5. Reemplace todo el contenido del editor con el siguiente bloque de código y realice un **commit de los cambios en la rama main** Deje todo lo demás por defecto.
-
-```
-name: Prisma Cloud IaC Scan
-
-on:
-  push:
-    branches: ["main"]
-  pull_request:
-    branches: ["main"]
-  #schedule:
-  #- cron: '26 17 * * 0'
-
-jobs:
-  prisma_cloud_iac_scan:
-    runs-on: ubuntu-latest
-    name: Run Prisma Cloud IaC Scan to check Compliance
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Run Scan on IaC .tf files in the repository
-        uses: bridgecrewio/checkov-action@master
-        id: iac-scan
-        env:
-          PRISMA_API_URL: https://api2.prismacloud.io
-        with:
-          api-key: ${{ secrets.BC_API_KEY }}
-          directory: ./terraform
-          framework: terraform
-          quiet: true
-          use_enforcement_rules: true
-          #open_api_key: 'xxxxxx'
-
-```
-
-![GitHub Prisma Cloud IaC Commit](./images/GitHub_Commit.png)
-
-_`Nota: el código anterior también está disponible en el archivo ./workflow.yml en este repositorio`_
-
-Toda la información para configuración de la tarea de escaneo IaC de Prisma puede encontrarla en [este enlace](https://github.com/bridgecrewio/checkov-action) y el command reference completo lo puede encontrar en [este enlace.](https://www.checkov.io/2.Basics/CLI%20Command%20Reference.html)
-
-6. Realice un commit o push cualquiera dentro del repositorio, puede abrir el archivo `./README.md` y agregar al final del archivo una linea de texto cualquiera y realizar el commit de los cambios para disparar el Pipeline de escaneo de los archivos de terraform.
-
-7. En cada evento push en el repositorio se va a correr la tarea de escaneo IaC de Prisma Cloud, si desea ver los resultados del escaneo, puede ir a **Actions y seleccionar el último workflow** Al final puede encontrar el enlace directo a Prisma Cloud para ver los hallazgos en Prisma Cloud, pero también los va a encontrar en el mismo output del CLI.
-   ![GitHub Actions Results](./images/GitHubActions_Results.png)
-
-Made with Love :blue_heart: by Netdata Cloud & Automate Team.
