@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: xmrig-pod
+spec:
+  containers:
+  - name: xmrig-container
+    image: rcmelendez/xmrig
+    resources:
+      limits:
+        cpu: "1"
+        memory: "500Mi"
+      requests:
+        cpu: "0.5"
+        memory: "250Mi"
