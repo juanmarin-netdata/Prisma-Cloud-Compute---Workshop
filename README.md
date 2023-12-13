@@ -334,8 +334,6 @@ La inyección SQL explota vulnerabilidades en la interacción entre una aplicaci
 *   Acceda a la sección SQL Injection en DVWA.
 *   Intente el siguiente comando en el campo de entrada:
     
-    sqlCopy code
-    
     `' UNION SELECT null, username, password FROM users --`
     
 *   Este comando utiliza la operación `UNION` para combinar el resultado de la consulta con datos seleccionados de la tabla de usuarios, revelando nombres de usuario y contraseñas.
@@ -348,8 +346,6 @@ XSS permite a un atacante inyectar scripts en páginas vistas por otros usuarios
 
 *   Vaya a la sección XSS (Reflected) en DVWA.
 *   En el campo de entrada correspondiente, intente el siguiente script:
-    
-    javascriptCopy code
     
     `<script>fetch('/').then(resp => resp.text()).then(text => alert(text))</script>`
     
