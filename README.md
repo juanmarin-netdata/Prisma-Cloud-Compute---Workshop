@@ -209,3 +209,58 @@ spec:
 *   **Entorno Seguro**: DVWA es una aplicación vulnerable por diseño. Asegúrese de desplegarla en un entorno controlado y aislado.
 *   **Fines Educativos**: Este despliegue está orientado al aprendizaje y la experimentación en el campo de la seguridad informática.
 
+Pruebas de Seguridad en DVWA 🛡️
+--------------------------------
+
+### Objetivo
+
+Realizar pruebas de seguridad utilizando DVWA para entender y aprender sobre diferentes tipos de vulnerabilidades web. Se cubrirán tres tipos de ataques: inyección SQL, Cross-Site Scripting (XSS) y Fuerza Bruta.
+
+### 1\. Inyección SQL
+
+La inyección SQL aprovecha las vulnerabilidades en la interacción de una aplicación con su base de datos. El objetivo es manipular o extraer datos.
+
+**Ejemplo de Comando de Prueba**:
+
+*   Acceda a la sección SQL Injection en DVWA.
+*   En el campo de entrada, intente el siguiente comando:
+    
+    sqlCopy code
+    
+    `' OR '1'='1`
+    
+*   Este comando busca alterar la lógica de la consulta SQL para acceder a datos no autorizados.
+
+### 2\. Cross-Site Scripting (XSS)
+
+XSS permite a un atacante inyectar scripts en páginas vistas por otros usuarios, potencialmente robando sesiones de usuario o dañando la experiencia del usuario.
+
+**Ejemplo de Comando de Prueba**:
+
+*   Vaya a la sección XSS en DVWA.
+*   En el campo de entrada correspondiente, intente el siguiente script:
+    
+    javascriptCopy code
+    
+    `<script>alert('XSS')</script>`
+    
+*   Este script ejecutará una alerta en el navegador, demostrando la ejecución de código del lado del cliente.
+
+### 3\. Ataque de Fuerza Bruta
+
+Este ataque busca ganar acceso a un sitio probando numerosas combinaciones de usuario y contraseña hasta que una sea exitosa.
+
+**Ejemplo de Comando de Prueba**:
+
+*   Diríjase a la sección Brute Force en DVWA.
+*   Utilice herramientas como Hydra o realice intentos manuales para tratar de adivinar las credenciales.
+*   Un ejemplo de credenciales comunes es usar "admin" tanto para el usuario como para la contraseña.
+
+### Monitoreo y Observación con Prisma Cloud
+
+*   **Observación**: Utilice Prisma Cloud para monitorear estas pruebas y observe cómo se detectan y gestionan los intentos de ataque.
+
+### Consideraciones Importantes
+
+*   **Entorno Seguro y Controlado**: Realice estas pruebas en un entorno seguro y no en aplicaciones de producción.
+*   **Fines Educativos**: Estas pruebas deben realizarse solo con fines educativos y de aprendizaje sobre la seguridad informática.
