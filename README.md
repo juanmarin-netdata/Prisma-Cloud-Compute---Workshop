@@ -88,7 +88,7 @@ Configurar y desplegar el DaemonSet Defender de Prisma Cloud para una protecció
 2. Abra la terminal y cargue el archivo YAML.
 3. Cree un namespace para todas las actividades que realizará durante el workshop con `kubectl create namespace <namespace>`
 4. Ejecute `kubectl apply -f <nombre_del_archivo>.yaml -n <namespace>`.
-5. Verifique los pods con `kubectl get pods -A`.
+5. Verifique los pods con `kubectl get pods -n <namespace>`.
 
 ### Verificación y Monitoreo
 
