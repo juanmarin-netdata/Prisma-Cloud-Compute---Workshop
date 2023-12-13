@@ -511,7 +511,7 @@ spec:
     
     `kubectl exec -it [nombre-pod-wordpress] -n <namespace> -- /bin/sh`
     
-    Intente obtener información de manera directa al pod de MySQL `curl hhtp://<EXTERNAL_IP>:<PORT>`
+    Intente obtener información de manera directa al pod de MySQL `curl http://<EXTERNAL_IP>:<PORT>`
     
 ### Monitoreo y Observación con Prisma Cloud
 
