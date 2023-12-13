@@ -228,7 +228,7 @@ El objetivo de esta sección del workshop es experimentar cómo Prisma Cloud det
 Despliegue el pod con el siguiente comando:
 
 ```
-kubectl apply -f xmrig.pod.yaml -n <namespace>
+kubectl apply -f xmrig-pod.yaml -n <namespace>
 ```
 
 ### Monitoreo con Prisma Cloud
