@@ -125,4 +125,87 @@ kubectl apply -f <archivo>.yaml -n <NAME>
 *   **Uso de un Entorno Controlado**: Es vital realizar estas pruebas en un entorno seguro y aislado, para evitar impactos no deseados.
 *   **Propósito Educativo**: Este ejercicio está diseñado con fines educativos, enfocándose en entender cómo Prisma Cloud responde a actividades potencialmente riesgosas.
 
+## Despliegue de Damn Vulnerable Web Application (DVWA) en Kubernetes 🕸️
+
+### Objetivo
+
+Desplegar DVWA en tu clúster de Kubernetes para permitir a los participantes interactuar con una aplicación web intencionalmente vulnerable, proporcionando un entorno práctico para aprender sobre seguridad en aplicaciones web.
+
+### Creación de Namespace Individual
+
+Cada participante debe crear un namespace único en Kubernetes para aislar su instancia de DVWA:
+
+1. **Creación del Namespace**:
+   Ejecute el siguiente comando, reemplazando `<NOMBRE_PARTICIPANTE>` con su nombre o identificador único:
+   ```bash
+   kubectl create namespace <NOMBRE_PARTICIPANTE>
+### Despliegue del DVWA
+
+Utilice el siguiente manifiesto de Kubernetes para desplegar DVWA en su namespace:
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dvwa-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dvwa
+  template:
+    metadata:
+      labels:
+        app: dvwa
+    spec:
+      containers:
+      - name: dvwa
+        image: vulnerables/web-dvwa
+        ports:
+        - containerPort: 80
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: dvwa-service
+spec:
+  selector:
+    app: dvwa
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+```
+
+### Ejecución:
+
+1.  Guarde el manifiesto anterior en un archivo llamado `dvwa-kubernetes.yaml`.
+2.  Reemplace `<NOMBRE_PARTICIPANTE>` con su namespace específico.
+3.  Despliegue DVWA en su namespace con el siguiente comando:
+    
+    bashCopy code
+    
+    `kubectl apply -f dvwa-kubernetes.yaml -n <NOMBRE_PARTICIPANTE>`
+    
+
+### Verificación y Acceso
+
+1.  Verifique que los pods estén funcionando correctamente:
+    
+    bashCopy code
+    
+    `kubectl get pods -n <NOMBRE_PARTICIPANTE>`
+    
+2.  Acceda a DVWA a través del LoadBalancer o mediante port-forwarding.
+
+### Monitoreo y Observación con Prisma Cloud
+
+*   **Monitoreo Continuo**: Utilice Prisma Cloud para monitorear las instancias DVWA desplegadas y observar las vulnerabilidades y eventos de seguridad.
+
+### Consideraciones Importantes
+
+*   **Entorno Seguro**: DVWA es una aplicación vulnerable por diseño. Asegúrese de desplegarla en un entorno controlado y aislado.
+*   **Fines Educativos**: Este despliegue está orientado al aprendizaje y la experimentación en el campo de la seguridad informática.
 
