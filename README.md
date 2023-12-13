@@ -541,7 +541,7 @@ Esperamos que las sesiones y las actividades del workshop hayan sido enriquecedo
 
 ### Continuemos Aprendiendo
 
-Les animamos a todos a continuar explorando, aprendiendo y aplicando lo que han adquirido aquí en sus proyectos con Prisma Cloud. Manténganse conectados para futuros eventos y oportunidades de aprendizaje con NETDATA INNOVATION CENTER.
+Les animamos a todos a continuar explorando, aprendiendo y aplicando lo que han adquirido aquí en sus proyectos con Prisma Cloud. Manténganse conectados para futuros eventos y oportunidades de aprendizaje con **NETDATA INNOVATION CENTER**.
 
 ### ¡Hasta Pronto!
 
