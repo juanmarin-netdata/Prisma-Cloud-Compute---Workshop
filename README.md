@@ -307,7 +307,7 @@ spec:
     
 2.  Acceda a DVWA a través del LoadBalancer utilizando la IP externa del servicio:
 
-   `kubectl get svc -n <namespace>
+   `kubectl get svc -n <namespace>`
 
 ### Monitoreo y Observación con Prisma Cloud
 
