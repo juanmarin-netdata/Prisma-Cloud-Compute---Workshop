@@ -360,8 +360,6 @@ La inyección de comandos permite a un atacante ejecutar comandos arbitrarios en
 *   Diríjase a la sección Command Injection en DVWA.
 *   Utilice el siguiente comando en el campo de entrada:
     
-    bashCopy code
-    
     `; cat /etc/passwd #`
     
 *   Este comando aprovecha la vulnerabilidad para ejecutar el comando `cat /etc/passwd`, permitiendo al atacante ver los nombres de usuario en el servidor.
