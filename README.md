@@ -288,19 +288,97 @@ Para experimentar con CNNS, desplegaremos una aplicación de muestra en Kubernet
 
 **Manifiesto de Kubernetes**:
 
-yamlCopy code
-
 ```yaml
-apiVersion: v1
-kind: Pod
+apiVersion: apps/v1
+kind: Deployment
 metadata:
-  name: cnns-test-pod
+  name: wordpress
 spec:
-  containers:
-  - name: cnns-container
-    image: nginx
-    ports:
-    - containerPort: 80
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wordpress
+  template:
+    metadata:
+      labels:
+        app: wordpress
+    spec:
+      containers:
+      - name: wordpress
+        image: wordpress:latest
+        ports:
+        - containerPort: 80
+        env:
+        - name: WORDPRESS_DB_HOST
+          value: mysql
+        - name: WORDPRESS_DB_USER
+          value: wordpress
+        - name: WORDPRESS_DB_PASSWORD
+          value: wordpress
+        - name: WORDPRESS_DB_NAME
+          value: wordpress
+
+---
+# mysql-deployment.yaml
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      containers:
+      - name: mysql
+        image: mysql:latest
+        ports:
+        - containerPort: 3306
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: rootpassword
+        - name: MYSQL_DATABASE
+          value: wordpress
+        - name: MYSQL_USER
+          value: wordpress
+        - name: MYSQL_PASSWORD
+          value: wordpress
+
+---
+# service.yaml
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: wordpress
+spec:
+  selector:
+    app: wordpress
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: LoadBalancer
+---
+# service-mysql.yaml
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql
+spec:
+  selector:
+    app: mysql
+  ports:
+    - protocol: TCP
+      port: 3306
+      targetPort: 3306
 ```
 
 **Instrucciones de Despliegue**:
@@ -326,6 +404,45 @@ spec:
 5.  **Monitorización**:
     *   Monitoree las actividades de red en la sección de logs y alertas para observar cómo se aplican las políticas.
 
+### Pasos para la Verificación de Conexión
+
+1.  **Comprobación del Estado de los Pods**: Utilice el comando `kubectl get pods` para revisar el estado de los pods de WordPress y MySQL. Ambos deben estar en estado `Running`.
+    
+    bashCopy code
+    
+    `kubectl get pods`
+    
+2.  **Verificación de Logs**: Revise los logs de ambos pods para detectar mensajes de conexión exitosa o posibles errores.
+    
+    *   **Logs de WordPress**:
+        
+        bashCopy code
+        
+        `kubectl logs [nombre-pod-wordpress]`
+        
+    *   **Logs de MySQL**:
+        
+        bashCopy code
+        
+        `kubectl logs [nombre-pod-mysql]`
+        
+    
+    Reemplace `[nombre-pod-wordpress]` y `[nombre-pod-mysql]` con los nombres reales de sus pods.
+    
+3.  **Acceso al Interfaz de WordPress**: Si ha configurado un servicio LoadBalancer o NodePort para WordPress, intente acceder a la interfaz web de WordPress a través de un navegador. La capacidad de iniciar sesión y realizar operaciones indica una conexión exitosa.
+    
+4.  **Pruebas de Conectividad Directa**: Realice un chequeo de conectividad directa desde el pod de WordPress al pod de MySQL usando comandos como `telnet` o `nc` (netcat).
+    
+    bashCopy code
+    
+    `kubectl exec -it [nombre-pod-wordpress] -- nc -zv [nombre-pod-mysql] 3306`
+    
+    Reemplace `[nombre-pod-wordpress]` y `[nombre-pod-mysql]` con los nombres de sus pods.
+    
+5.  **Chequeo de Salud en Kubernetes**: Si configuró sondeos de vida y de preparación en sus manifiestos, Kubernetes verificará que los pods estén funcionando correctamente. Una falta de reinicios o eventos de error es una buena señal.
+    
+6.  **Herramientas de Monitoreo y Administración**: Utilice herramientas como phpMyAdmin para verificar si WordPress ha podido realizar operaciones en la base de datos MySQL.
+    
 ### Monitoreo y Observación con Prisma Cloud
 
 *   **Observación**: Utilice Prisma Cloud para monitorear el cumplimiento de las políticas de CNNS y detectar cualquier desviación o intento de ataque.
