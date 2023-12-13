@@ -509,7 +509,7 @@ spec:
     
 4.  **Pruebas de Conectividad Directa**: Realice un chequeo de conectividad directa desde el pod de WordPress al pod de MySQL.
     
-    `kubectl exec -it [nombre-pod-wordpress] -- /bin/sh`
+    `kubectl exec -it [nombre-pod-wordpress] -n <namespace> -- /bin/sh`
     
     Intente obtener información de manera directa al pod de MySQL `curl hhtp://<EXTERNAL_IP>:<PORT>`
     
