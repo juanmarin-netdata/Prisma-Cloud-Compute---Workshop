@@ -108,7 +108,7 @@ Experimentar las capacidades de protección en tiempo de ejecución de Prisma Cl
 
 1. Cree un Pod para simular procesos comunes en ataques.
 2. Use `kubectl apply -f pod-process.yaml -n <namespace>`.
-3. Acceda al contenedor con `kubectl exec -it process-pod -n <NAME>`.
+3. Acceda al contenedor con `kubectl exec -it process-pod -n <NAME> -- /bin/sh`.
 4. Ejecute comandos de prueba como `nmap`, `curl`, y `wget`.
 
 ### Ejemplo de Manifiesto de Pod
