@@ -264,3 +264,73 @@ Este ataque busca ganar acceso a un sitio probando numerosas combinaciones de us
 
 *   **Entorno Seguro y Controlado**: Realice estas pruebas en un entorno seguro y no en aplicaciones de producción.
 *   **Fines Educativos**: Estas pruebas deben realizarse solo con fines educativos y de aprendizaje sobre la seguridad informática.
+
+Introducción a Contenedores de Red de Seguridad (CNNS) en Kubernetes 🛡️
+------------------------------------------------------------------------
+
+### Objetivo
+
+Comprender los fundamentos de los Contenedores de Red de Seguridad (CNNS) en Kubernetes y aprender a configurar y aplicar políticas de seguridad mediante Prisma Cloud.
+
+### Introducción Teórica a CNNS
+
+Los CNNS son una parte crucial de la seguridad en entornos de Kubernetes. Actúan como barreras virtuales, controlando el tráfico de red que entra y sale de los contenedores. Aseguran que solo el tráfico autorizado pueda comunicarse con los contenedores, mitigando así los riesgos de ataques y vulnerabilidades de red.
+
+**Características Clave de los CNNS**:
+
+*   **Aislamiento de Red**: Separan el tráfico de red entre diferentes servicios y aplicaciones.
+*   **Reglas de Tráfico**: Permiten definir políticas detalladas para controlar cómo los contenedores pueden comunicarse entre sí.
+*   **Monitorización y Registro**: Proporcionan herramientas para supervisar y registrar el tráfico de red, facilitando la detección de actividades sospechosas.
+
+### Despliegue de Entorno de Prueba para CNNS
+
+Para experimentar con CNNS, desplegaremos una aplicación de muestra en Kubernetes.
+
+**Manifiesto de Kubernetes**:
+
+yamlCopy code
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: cnns-test-pod
+spec:
+  containers:
+  - name: cnns-container
+    image: nginx
+    ports:
+    - containerPort: 80
+```
+
+**Instrucciones de Despliegue**:
+
+1.  Guarde el manifiesto en un archivo llamado `cnns-test.yaml`.
+2.  Despliegue el pod en Kubernetes con:
+    
+    bashCopy code
+    
+    `kubectl apply -f cnns-test.yaml`
+    
+
+### Configuración de Reglas en Prisma Cloud para CNNS
+
+1.  **Acceso a Prisma Cloud**: Inicie sesión en la consola de Prisma Cloud.
+2.  **Navegación**: Vaya a `Network Security` > `Container Network Security`.
+3.  **Creación de Reglas**:
+    *   Cree una nueva regla seleccionando `Add Policy`.
+    *   Defina el alcance de la regla (por ejemplo, aplicar a todos los pods o a un namespace específico).
+    *   Configure las reglas de tráfico permitido (por ejemplo, permitir el tráfico HTTP en el puerto 80).
+4.  **Aplicación de la Regla**:
+    *   Asegúrese de que la regla esté activa y aplicada a los contenedores relevantes.
+5.  **Monitorización**:
+    *   Monitoree las actividades de red en la sección de logs y alertas para observar cómo se aplican las políticas.
+
+### Monitoreo y Observación con Prisma Cloud
+
+*   **Observación**: Utilice Prisma Cloud para monitorear el cumplimiento de las políticas de CNNS y detectar cualquier desviación o intento de ataque.
+
+### Consideraciones Importantes
+
+*   **Prácticas Seguras**: Asegúrese de seguir las mejores prácticas de seguridad al configurar CNNS.
+*   **Fines Educativos**: Este módulo está destinado para fines educativos y de aprendizaje sobre la implementación y gestión de CNNS en Kubernetes.
