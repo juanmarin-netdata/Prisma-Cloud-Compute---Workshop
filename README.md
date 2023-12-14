@@ -104,12 +104,10 @@ La protección en tiempo de ejecución se refiere a la capacidad de detectar y m
 
 Experimentar las capacidades de protección en tiempo de ejecución de Prisma Cloud.
 
-### Creación y Ejecución de un Pod de Pruebas
+### Creación de un Pod de Pruebas
 
 1. Cree un Pod para simular procesos comunes en ataques.
 2. Use `kubectl apply -f pod-process.yaml -n <namespace>`.
-3. Acceda al contenedor con `kubectl exec -it process-pod -n <NAME> -- /bin/sh`.
-4. Ejecute comandos de prueba como `nmap`, `curl`, y `wget`.
 
 ### Ejemplo de Manifiesto de Pod
 
@@ -126,18 +124,20 @@ spec:
     args: ["-c", "apk update; apk add --no-cache nmap curl wget; sleep infinity"]
 ```
 
-Al realizar pruebas de seguridad en entornos de Kubernetes, es fundamental ser consciente de los riesgos asociados con el uso de herramientas como `nmap`, `wget` y `curl`. Aunque estas herramientas son esenciales para probar y asegurar redes y aplicaciones, su uso indebido o no controlado puede representar riesgos de seguridad significativos.
+Al realizar pruebas de seguridad en entornos de Kubernetes, es fundamental ser consciente de los riesgos asociados con el uso de herramientas como `apk`, `wget` y `curl`. Aunque estas herramientas son esenciales para probar y asegurar redes y aplicaciones, su uso indebido o no controlado puede representar riesgos de seguridad significativos.
 
 ### Riesgos Asociados con Herramientas Comunes
 
-1.  **nmap**:
+1.  **apk**:
     
-    *   **Riesgo**: `nmap` es una potente herramienta de escaneo de red que puede revelar información sensible sobre los servicios en ejecución y sus puertos abiertos. Su uso no autorizado puede ser un indicativo de reconocimiento por parte de un atacante.
-    *   **Protección**: Monitorizar el uso de `nmap` y establecer reglas para alertar sobre escaneos no autorizados.
+    *   **Riesgo**: La gestión inadecuada de paquetes con apk puede llevar a varios riesgos de seguridad. Instalar paquetes desconocidos o no confiables puede introducir vulnerabilidades o malware en el sistema. Además, la falta de actualizaciones regulares de paquetes puede dejar el sistema expuesto a exploits conocidos.
+    *   **Protección**: Para mitigar estos riesgos, es crucial monitorizar y controlar el uso de apk en el entorno de Alpine Linux
+      
 2.  **wget**:
     
     *   **Riesgo**: `wget` puede descargar contenido y scripts maliciosos de Internet. En manos equivocadas, podría facilitar la introducción de malware o contenido no deseado en el sistema.
     *   **Protección**: Restringir el uso de `wget` a fuentes confiables y monitorizar las descargas para detectar comportamientos inusuales.
+      
 3.  **curl**:
     
     *   **Riesgo**: Similar a `wget`, `curl` puede ser utilizado para descargar archivos o interactuar con servicios externos. Puede ser utilizado en ataques de exfiltración de datos o para recibir comandos de un servidor de comando y control.
@@ -153,14 +153,12 @@ Una vez que hayas desplegado el pod de pruebas, es momento de interactuar con é
     
     `kubectl exec -it process-pod -n <namespace> -- /bin/sh`
     
-2.  **Ejecución de nmap**:
+2.  **Ejecución de apk**:
     
-    *   **Propósito**: `nmap` se utiliza para escanear puertos y detectar servicios en una red.
+    *   **Propósito**: `apk` se utiliza para instalar paquetes maliciosos.
     *   **Comando de Ejemplo**:
         
-        `nmap -p 80 google.com`
-        
-    *   Este comando escaneará el puerto 80 en `google.com`.
+        `apk add <MALICIOUS_PACKAGE>`
       
 3.  **Uso de wget**:
     
