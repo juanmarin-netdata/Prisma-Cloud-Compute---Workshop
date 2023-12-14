@@ -399,103 +399,61 @@ Para experimentar con CNNS, desplegaremos una aplicación de muestra en Kubernet
 **Manifiesto de Kubernetes**:
 
 ```yaml
-apiVersion: apps/v1
-kind: Deployment
+---
+apiVersion: v1
+kind: Pod
 metadata:
-  name: wordpress
+  name: nginx-pod
+  labels:
+    app: nginx
 spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: wordpress
-  template:
-    metadata:
-      labels:
-        app: wordpress
-    spec:
-      containers:
-      - name: wordpress
-        image: wordpress:latest
-        ports:
+  containers:
+    - name: nginx-container
+      image: nginx
+      ports:
         - containerPort: 80
-        env:
-        - name: WORDPRESS_DB_HOST
-          value: mysql
-        - name: WORDPRESS_DB_USER
-          value: wordpress
-        - name: WORDPRESS_DB_PASSWORD
-          value: wordpress
-        - name: WORDPRESS_DB_NAME
-          value: wordpress
 
 ---
-# mysql-deployment.yaml
-
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: mysql
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: mysql
-  template:
-    metadata:
-      labels:
-        app: mysql
-    spec:
-      containers:
-      - name: mysql
-        image: mysql:latest
-        ports:
-        - containerPort: 3306
-        env:
-        - name: MYSQL_ROOT_PASSWORD
-          value: rootpassword
-        - name: MYSQL_DATABASE
-          value: wordpress
-        - name: MYSQL_USER
-          value: wordpress
-        - name: MYSQL_PASSWORD
-          value: wordpress
-
----
-# service.yaml
-
 apiVersion: v1
 kind: Service
 metadata:
-  name: wordpress
+  name: nginx-service
 spec:
-  selector:
-    app: wordpress
+  type: ClusterIP
   ports:
-    - protocol: TCP
-      port: 80
-      targetPort: 80
-  type: LoadBalancer
----
-# service-mysql.yaml
+    - port: 80
+  selector:
+    app: nginx
 
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: curl-pod
+  labels:
+    app: curl
+spec:
+  containers:
+    - name: curl-container
+      image: appropriate/curl
+      command: ["sh", "-c", "sleep 3600"]
+
+---
 apiVersion: v1
 kind: Service
 metadata:
-  name: mysql
+  name: curl-service
 spec:
-  selector:
-    app: mysql
+  type: ClusterIP
   ports:
-    - protocol: TCP
-      port: 3306
-      targetPort: 3306
+    - port: 8080
+  selector:
+    app: curl
 ```
 
 **Instrucciones de Despliegue**:
 
 1.  Despliegue el pod en Kubernetes con:
-    
-    bashCopy code
     
     `kubectl apply -f cnns.yaml -n <namespace>`
     
@@ -503,15 +461,15 @@ spec:
 
 1.  **Comprobación del Estado de los Pods**: Utilice el comando `kubectl get pods` para revisar el estado de los pods de WordPress y MySQL. Ambos deben estar en estado `Running`.
     
-    `kubectl get pods -n <namespace>`
+    `kubectl get pods -n <namespace> -o wide`
     
-2.  **Acceso al Interfaz de WordPress**: Si ha configurado un servicio LoadBalancer, intente acceder a la interfaz web de WordPress a través de un navegador. La capacidad de iniciar sesión y realizar operaciones indica una conexión exitosa. Obtenga la IP externa con `kubectl get svc -n <namespace>`
+2.  **Acceso al Interfaz web**: Si ha configurado un servicio LoadBalancer, intente acceder a la interfaz web de WordPress a través de un navegador. La capacidad de iniciar sesión y realizar operaciones indica una conexión exitosa. Obtenga la IP externa con `kubectl get svc -n <namespace>`
     
-4.  **Pruebas de Conectividad Directa**: Realice un chequeo de conectividad directa desde el pod de WordPress al pod de MySQL.
+4.  **Pruebas de Conectividad Directa**: Realice un chequeo de conectividad directa desde el **curl-pod** al pod de **nginx-pod**.
     
-    `kubectl exec -it [nombre-pod-wordpress] -n <namespace> -- /bin/sh`
+    `kubectl exec -it [nombre-curl-pod] -n <namespace> -- /bin/sh`
     
-    Intente obtener información de manera directa al pod de MySQL `curl http://<EXTERNAL_IP>:<PORT>`
+    Intente obtener información de manera directa al pod de ngix `curl <IP_NGNIX_POD>:<PORT>`
     
 ### Monitoreo y Observación con Prisma Cloud
 
