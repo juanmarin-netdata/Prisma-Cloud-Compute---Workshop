@@ -1,90 +1,54 @@
-apiVersion: apps/v1
-kind: Deployment
+---
+
+apiVersion: v1
+kind: Pod
 metadata:
-  name: wordpress
+  name: nginx-pod
+  labels:
+    app: nginx
 spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: wordpress
-  template:
-    metadata:
-      labels:
-        app: wordpress
-    spec:
-      containers:
-      - name: wordpress
-        image: wordpress:latest
-        ports:
+  containers:
+    - name: nginx-container
+      image: nginx
+      ports:
         - containerPort: 80
-        env:
-        - name: WORDPRESS_DB_HOST
-          value: mysql
-        - name: WORDPRESS_DB_USER
-          value: wordpress
-        - name: WORDPRESS_DB_PASSWORD
-          value: wordpress
-        - name: WORDPRESS_DB_NAME
-          value: wordpress
 
 ---
-# mysql-deployment.yaml
-
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: mysql
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: mysql
-  template:
-    metadata:
-      labels:
-        app: mysql
-    spec:
-      containers:
-      - name: mysql
-        image: mysql:latest
-        ports:
-        - containerPort: 3306
-        env:
-        - name: MYSQL_ROOT_PASSWORD
-          value: rootpassword
-        - name: MYSQL_DATABASE
-          value: wordpress
-        - name: MYSQL_USER
-          value: wordpress
-        - name: MYSQL_PASSWORD
-          value: wordpress
-
----
-# service.yaml
 
 apiVersion: v1
 kind: Service
 metadata:
-  name: wordpress
+  name: nginx-service
 spec:
-  selector:
-    app: wordpress
+  type: ClusterIP
   ports:
-    - protocol: TCP
-      port: 80
-      targetPort: 80
-  type: LoadBalancer
+    - port: 80
+  selector:
+    app: nginx
+
 ---
-# service-mysql.yaml
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: curl-pod
+  labels:
+    app: curl
+spec:
+  containers:
+    - name: curl-container
+      image: appropriate/curl
+      command: ["sh", "-c", "sleep 3600"]
+
+---
 
 apiVersion: v1
 kind: Service
 metadata:
-  name: mysql
+  name: curl-service
 spec:
-  selector:
-    app: mysql
+  type: ClusterIP
   ports:
-    - protocol: TCP
-      port: 3306
-      targetPort: 3306
+    - port: 8080
+  selector:
+    app: curl
