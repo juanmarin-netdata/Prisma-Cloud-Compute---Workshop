@@ -412,18 +412,20 @@ spec:
         - containerPort: 80
 
 ---
+
 apiVersion: v1
 kind: Service
 metadata:
   name: nginx-service
 spec:
-  type: ClusterIP
+  type: LoadBalancer
   ports:
     - port: 80
   selector:
     app: nginx
 
 ---
+
 apiVersion: v1
 kind: Pod
 metadata:
@@ -437,6 +439,7 @@ spec:
       command: ["sh", "-c", "sleep 3600"]
 
 ---
+
 apiVersion: v1
 kind: Service
 metadata:
